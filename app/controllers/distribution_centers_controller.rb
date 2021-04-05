@@ -1,6 +1,19 @@
 class DistributionCentersController < ApplicationController
   before_action :set_distribution_center, only: [:show, :update, :destroy]
 
+
+  <<-DOC
+  _________________________________________________________________________________________________________________
+    ___  ______ _____       _____ _____   ___  ____________ _____ _    ______ 
+   / _ \ | ___ \_   _|     /  ___/  __ \ / _ \ |  ___|  ___|  _  | |   |  _  \
+  / /_\ \| |_/ / | |       \ `--.| /  \// /_\ \| |_  | |_  | | | | |   | | | |
+  |  _  ||  __/  | |        `--. \ |    |  _  ||  _| |  _| | | | | |   | | | |
+  | | | || |    _| |_      /\__/ / \__/\| | | || |   | |   \ \_/ / |___| |/ / 
+  \_| |_/\_|    \___/      \____/ \____/\_| |_/\_|   \_|    \___/\_____/___/  
+                                                                                                                                                   
+    DOC
+
+    
   # GET /distribution_centers
   def index
     @distribution_centers = DistributionCenter.all
