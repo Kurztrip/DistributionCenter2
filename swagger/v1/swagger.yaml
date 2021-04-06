@@ -1,0 +1,146 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/distribution_centers":
+    get:
+      summary: list distribution_centers
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: create distribution_center
+      responses:
+        '200':
+          description: successful
+  "/distribution_centers/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show distribution_center
+      responses:
+        '200':
+          description: successful
+    patch:
+      summary: update distribution_center
+      responses:
+        '200':
+          description: successful
+    put:
+      summary: update distribution_center
+      responses:
+        '200':
+          description: successful
+    delete:
+      summary: delete distribution_center
+      responses:
+        '200':
+          description: successful
+  "/time_schedules":
+    get:
+      summary: list time_schedules
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: create time_schedule
+      responses:
+        '200':
+          description: successful
+  "/time_schedules/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show time_schedule
+      responses:
+        '200':
+          description: successful
+    patch:
+      summary: update time_schedule
+      responses:
+        '200':
+          description: successful
+    put:
+      summary: update time_schedule
+      responses:
+        '200':
+          description: successful
+    delete:
+      summary: delete time_schedule
+      responses:
+        '200':
+          description: successful
+  "/time_windows":
+    get:
+      summary: list time_windows
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: create time_window
+      responses:
+        '200':
+          description: successful
+  "/time_windows/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show time_window
+      responses:
+        '200':
+          description: successful
+    patch:
+      summary: update time_window
+      responses:
+        '200':
+          description: successful
+    put:
+      summary: update time_window
+      responses:
+        '200':
+          description: successful
+    delete:
+      summary: delete time_window
+      responses:
+        '200':
+          description: successful
+  "/time_windows/everyday":
+    post:
+      summary: create_everyday_schdule time_window
+      responses:
+        '200':
+          description: successful
+  "/time_windows/one_day_weekly_schedule":
+    post:
+      summary: create_one_day_weekly_schedule time_window
+      responses:
+        '200':
+          description: successful
+  "/time_windows/everyday_work_day":
+    post:
+      summary: create_every_work_day_schdule time_window
+      responses:
+        '200':
+          description: successful
+servers:
+- url: https://{defaultHost}
+  variables:
+    defaultHost:
+      default: www.example.com
