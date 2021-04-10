@@ -9,7 +9,8 @@ Rails.application.routes.draw do
   post '/time_windows/everyday', to: 'time_windows#create_everyday_schdule'
   post '/time_windows/one_day_weekly_schedule', to: 'time_windows#create_one_day_weekly_schedule'
   post '/time_windows/everyday_work_day', to: 'time_windows#create_every_work_day_schdule'
-
+  post '/time_windows/get_time_schedule_windows', to: 'time_windows#get_time_schedule_windows'
+  
 
 
 end
