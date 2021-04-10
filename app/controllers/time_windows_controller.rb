@@ -287,9 +287,6 @@ ___  ___     _            _                                            _
     #_____________________________________________________________________________________________________-
 
 
-    def get_time_schedule_windows
-      #render json:.find(params[:id])
-      render json: TimeWindow.where(time_schedule_id: time_schedules)
-    end
+
 
 end

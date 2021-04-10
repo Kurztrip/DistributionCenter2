@@ -60,7 +60,15 @@ ________________________________________________________________________________
       params.require(:time_schedule).permit(:title, :description, :distribution_center_id)
     end
 
+#_______________________________________________________________________________________________________
 
+
+    def get_time_schedule_windows
+      #render json:.find(params[:id])
+      #time_schedules = TimeSchedule.all
+      ts = TimeSchedule.find(params[:time_schedule_id])
+      render json: TimeWindow.where(time_schedule: ts)
+    end
 
 
 end
