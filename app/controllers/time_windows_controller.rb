@@ -32,6 +32,29 @@ ________________________________________________________________________________
   def create
     @time_window = TimeWindow.new(time_window_params)
     #puts(time_window_params)
+    #____________________________________________________
+    #Verificar que no se presente superposicion
+    time_windows = TimeWindow.all
+    beginning_datetime = @time_window.beginning
+    ending_datetime = @time_window.ending
+
+    if(beginning_datetime>ending_datetime)
+      render json: "La fecha inicial debe ser antes de la fecha final", status: :bad_request
+      return
+    end
+
+    no_superposition = true
+    for ith_window in time_windows do
+      if !( (beginning_datetime >= ith_window.ending) || (ending_datetime <= ith_window.beginning) )
+        no_superposition = false
+      end
+    end
+
+    if(no_superposition==false)
+      render json: "La ventana temporal ingresada se cruza con una ventana existente. Realize las correcciones o eliminaciones pertinentes e intente de nuevo", status: :bad_request
+      return
+    end
+    #____________________________________________________
     if @time_window.save
       render json: @time_window, status: :created, location: @time_window
     else
