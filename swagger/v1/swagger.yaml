@@ -7,14 +7,41 @@ paths:
   "/distribution_centers":
     get:
       summary: list distribution_centers
+      tags:
+      - Distribution Centers
       responses:
         '200':
           description: successful
+  distribution_centers:
     post:
-      summary: create distribution_center
+      summary: Create distribution_center
+      tags:
+      - Distribution Centers
+      parameters: []
       responses:
-        '200':
-          description: successful
+        '201':
+          description: distribution center was created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                address:
+                  type: string
+                latitude_location:
+                  type: number
+                longitude_location:
+                  type: number
+                total_space:
+                  type: number
+                available_space:
+                  type: number
+              required:
+              - address
+              - latitude_location
+              - longitude_location
+              - total_space,available_space
   "/distribution_centers/{id}":
     parameters:
     - name: id
@@ -22,38 +49,82 @@ paths:
       description: id
       required: true
       schema:
-        type: string
+        type: integer
     get:
       summary: show distribution_center
-      responses:
-        '200':
-          description: successful
-    patch:
-      summary: update distribution_center
+      tags:
+      - Distribution Centers
       responses:
         '200':
           description: successful
     put:
       summary: update distribution_center
+      tags:
+      - Distribution Centers
+      parameters: []
       responses:
-        '200':
-          description: successful
+        '201':
+          description: distribution center was updated
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                address:
+                  type: string
+                latitude_location:
+                  type: number
+                longitude_location:
+                  type: number
+                total_space:
+                  type: number
+                available_space:
+                  type: number
+              required:
+              - address
+              - latitude_location
+              - longitude_location
+              - total_space,available_space
     delete:
       summary: delete distribution_center
+      tags:
+      - Distribution Centers
       responses:
         '200':
           description: successful
   "/time_schedules":
     get:
       summary: list time_schedules
+      tags:
+      - Time Schedules
       responses:
         '200':
           description: successful
     post:
-      summary: create time_schedule
+      summary: Create time_schedule
+      tags:
+      - Time Schedules
+      parameters: []
       responses:
-        '200':
-          description: successful
+        '201':
+          description: created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                distribution_center_id:
+                  type: integer
+              required:
+              - title
+              - description
+              - distribution_center_id
   "/time_schedules/{id}":
     parameters:
     - name: id
@@ -61,24 +132,40 @@ paths:
       description: id
       required: true
       schema:
-        type: string
+        type: integer
     get:
       summary: show time_schedule
-      responses:
-        '200':
-          description: successful
-    patch:
-      summary: update time_schedule
+      tags:
+      - Time Schedules
       responses:
         '200':
           description: successful
     put:
-      summary: update time_schedule
+      summary: Update time_schedule
+      tags:
+      - Time Schedules
+      parameters: []
       responses:
         '200':
           description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                distribution_center_id:
+                  type: integer
+              required:
+              - distribution_center_id
     delete:
       summary: delete time_schedule
+      tags:
+      - Time Schedules
       responses:
         '200':
           description: successful
@@ -89,10 +176,29 @@ paths:
         '200':
           description: successful
     post:
-      summary: create time_window
+      summary: 'create time_window '
+      tags:
+      - Time Windows
+      parameters: []
       responses:
         '200':
           description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                beginning:
+                  type: string
+                ending:
+                  type: string
+                time_schdule_id:
+                  type: integer
+              required:
+              - beginning
+              - ending
+              - time_schdule_id
   "/time_windows/{id}":
     parameters:
     - name: id
@@ -106,16 +212,6 @@ paths:
       responses:
         '200':
           description: successful
-    patch:
-      summary: update time_window
-      responses:
-        '200':
-          description: successful
-    put:
-      summary: update time_window
-      responses:
-        '200':
-          description: successful
     delete:
       summary: delete time_window
       responses:
@@ -123,22 +219,94 @@ paths:
           description: successful
   "/time_windows/everyday":
     post:
-      summary: create_everyday_schdule time_window
+      summary: create a set of time windows repeating from monday to friday
+      tags:
+      - Time Windows
+      parameters: []
       responses:
         '200':
           description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                beginning:
+                  type: string
+                ending:
+                  type: string
+                time_schdule_id:
+                  type: integer
+              required:
+              - beginning
+              - ending
+              - time_schdule_id
   "/time_windows/one_day_weekly_schedule":
     post:
-      summary: create_one_day_weekly_schedule time_window
+      summary: 'create time windows repeating every selected ith day (Monday,...,Sunday) '
+      tags:
+      - Time Windows
+      parameters: []
       responses:
         '200':
           description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                year1:
+                  type: integer
+                month1:
+                  type: integer
+                day1:
+                  type: integer
+                year2:
+                  type: integer
+                month2:
+                  type: integer
+                day2:
+                  type: integer
+                daily_hours_list:
+                  type: array
+                time_schdule_id:
+                  type: integer
+              required:
+              - year1
+              - month1
+              - day1
+              - year2
+              - month2
+              - day2
+              - daily_hours_list
+              - time_schedule_id
   "/time_windows/everyday_work_day":
     post:
-      summary: create_every_work_day_schdule time_window
+      summary: create a set of time windows repeating from monday to friday
+      tags:
+      - Time Windows
+      parameters: []
       responses:
         '200':
           description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                beginning:
+                  type: string
+                ending:
+                  type: string
+                time_schdule_id:
+                  type: integer
+              required:
+              - beginning
+              - ending
+              - time_schdule_id
 servers:
 - url: https://{defaultHost}
   variables:
