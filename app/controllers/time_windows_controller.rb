@@ -32,6 +32,16 @@ ________________________________________________________________________________
   def create
     @time_window = TimeWindow.new(time_window_params)
     #puts(time_window_params)
+    time_windows = TimeWindow.all
+    beginning_datetime = @time_window.beginning
+    ending_datetime = @time_window.ending
+    any_conflict = TimeWindow.new_window_has_conflict(beginning_datetime, ending_datetime)
+    if (any_conflict != "ok")
+      render json: any_conflict, status: :bad_request
+      return
+    end
+
+    <<-DOC
     #____________________________________________________
     #Verificar que no se presente superposicion
     time_windows = TimeWindow.all
@@ -55,6 +65,7 @@ ________________________________________________________________________________
       return
     end
     #____________________________________________________
+    DOC
     if @time_window.save
       render json: @time_window, status: :created, location: @time_window
     else
