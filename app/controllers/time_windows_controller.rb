@@ -41,31 +41,6 @@ ________________________________________________________________________________
       return
     end
 
-    <<-DOC
-    #____________________________________________________
-    #Verificar que no se presente superposicion
-    time_windows = TimeWindow.all
-    beginning_datetime = @time_window.beginning
-    ending_datetime = @time_window.ending
-
-    if(beginning_datetime>ending_datetime)
-      render json: "La fecha inicial debe ser antes de la fecha final", status: :bad_request
-      return
-    end
-
-    no_superposition = true
-    for ith_window in time_windows do
-      if !( (beginning_datetime >= ith_window.ending) || (ending_datetime <= ith_window.beginning) )
-        no_superposition = false
-      end
-    end
-
-    if(no_superposition==false)
-      render json: "La ventana temporal ingresada se cruza con una ventana existente. Realize las correcciones o eliminaciones pertinentes e intente de nuevo", status: :bad_request
-      return
-    end
-    #____________________________________________________
-    DOC
     if @time_window.save
       render json: @time_window, status: :created, location: @time_window
     else
@@ -135,7 +110,9 @@ ___  ___     _            _                                            _
     #EJEMPLO: create_everyday_schdule(2021,4,3,2021,4,6,[ [[7,0],[12,30]], [[16,0],[18,45]]])
 
     def create_everyday_schdule
+
       
+        #PARAMETROS RECIBIDOS
         daily_hours_list = params[:daily_hours_list]
         start_day = DateTime.new(params[:year1],params[:month1],params[:day1])
         
@@ -144,7 +121,48 @@ ___  ___     _            _                                            _
         day_iterator_loop = start_day
         day_iterator = start_day
         
-        
+        any_conflict = TimeWindow.not_any_windows_has_conflict(day_iterator_loop, end_day, daily_hours_list, 1)
+        if (any_conflict != "ok")
+          render json: any_conflict, status: :bad_request
+          return
+        end
+        #
+        <<-DOC
+        while (day_iterator_loop <= end_day) do
+            
+          
+          for i in  daily_hours_list do
+              
+              start_hour_and_minute = i[0]
+              start_hour = start_hour_and_minute[0]
+              start_minute = start_hour_and_minute[1]
+
+              day_iterator =  DateTime.new(day_iterator_loop.year,day_iterator_loop.month,day_iterator_loop.day,start_hour,start_minute)
+              start_time_window = day_iterator
+              
+
+              end_hour_and_minute = i[1]
+              end_hour = end_hour_and_minute[0]
+              end_minute = end_hour_and_minute[1]
+
+              day_iterator =  DateTime.new(day_iterator_loop.year,day_iterator_loop.month,day_iterator_loop.day,end_hour,end_minute)
+              end_time_window = day_iterator
+
+              any_conflict = TimeWindow.new_window_has_conflict(start_time_window, end_time_window)
+              
+              if (any_conflict != "ok")
+                render json: "No fue posible crear el horario. Error: " + any_conflict + "[ "+ start_time_window.strftime() + "," + end_time_window.strftime() + " ]", status: :bad_request
+                return
+              end
+             
+          end 
+
+        day_iterator_loop += 1  
+        end
+        DOC
+        #
+
+        day_iterator_loop = start_day
         while (day_iterator_loop <= end_day) do
             
           
