@@ -121,46 +121,15 @@ ___  ___     _            _                                            _
         day_iterator_loop = start_day
         day_iterator = start_day
         
+
+        #Validaciones de integridad antes de hacer operaciones sobre la BD
         any_conflict = TimeWindow.not_any_windows_has_conflict(day_iterator_loop, end_day, daily_hours_list, 1)
         if (any_conflict != "ok")
           render json: any_conflict, status: :bad_request
           return
         end
-        #
-        <<-DOC
-        while (day_iterator_loop <= end_day) do
-            
-          
-          for i in  daily_hours_list do
-              
-              start_hour_and_minute = i[0]
-              start_hour = start_hour_and_minute[0]
-              start_minute = start_hour_and_minute[1]
+        
 
-              day_iterator =  DateTime.new(day_iterator_loop.year,day_iterator_loop.month,day_iterator_loop.day,start_hour,start_minute)
-              start_time_window = day_iterator
-              
-
-              end_hour_and_minute = i[1]
-              end_hour = end_hour_and_minute[0]
-              end_minute = end_hour_and_minute[1]
-
-              day_iterator =  DateTime.new(day_iterator_loop.year,day_iterator_loop.month,day_iterator_loop.day,end_hour,end_minute)
-              end_time_window = day_iterator
-
-              any_conflict = TimeWindow.new_window_has_conflict(start_time_window, end_time_window)
-              
-              if (any_conflict != "ok")
-                render json: "No fue posible crear el horario. Error: " + any_conflict + "[ "+ start_time_window.strftime() + "," + end_time_window.strftime() + " ]", status: :bad_request
-                return
-              end
-             
-          end 
-
-        day_iterator_loop += 1  
-        end
-        DOC
-        #
 
         day_iterator_loop = start_day
         while (day_iterator_loop <= end_day) do
@@ -225,6 +194,14 @@ ___  ___     _            _                                            _
         day_iterator_loop = start_day
         day_iterator = start_day
         
+
+
+        #Validaciones de integridad antes de hacer operaciones sobre la BD
+        any_conflict = TimeWindow.not_any_workweek_windows_has_conflict(day_iterator_loop, end_day, daily_hours_list)
+        if (any_conflict != "ok")
+          render json: any_conflict, status: :bad_request
+          return
+        end
 
         while (day_iterator_loop <= end_day) do
             
@@ -296,6 +273,14 @@ ___  ___     _            _                                            _
         #Hallar primer dia LMXJVSD SEGUN PARAMETRO ENVIADO
         while (day_iterator_loop.strftime("%A") != week_day) do
               day_iterator_loop += 1
+        end
+
+
+        #Validaciones de integridad antes de hacer operaciones sobre la BD
+        any_conflict = TimeWindow.not_any_windows_has_conflict(day_iterator_loop, end_day, daily_hours_list, 7)
+        if (any_conflict != "ok")
+          render json: any_conflict, status: :bad_request
+          return
         end
 
         
