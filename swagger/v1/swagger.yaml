@@ -6,7 +6,7 @@ info:
 paths:
   "/distribution_centers":
     get:
-      summary: list distribution_centers
+      summary: show all distribution_centers
       tags:
       - Distribution Centers
       responses:
@@ -95,7 +95,7 @@ paths:
           description: successful
   "/time_schedules":
     get:
-      summary: list time_schedules
+      summary: show all time_schedules
       tags:
       - Time Schedules
       responses:
@@ -171,7 +171,9 @@ paths:
           description: successful
   "/time_windows":
     get:
-      summary: list time_windows
+      summary: show all time_windows
+      tags:
+      - Time Windows
       responses:
         '200':
           description: successful
@@ -209,48 +211,29 @@ paths:
         type: string
     get:
       summary: show time_window
+      tags:
+      - Time Windows
       responses:
         '200':
           description: successful
     delete:
       summary: delete time_window
+      tags:
+      - Time Windows
       responses:
         '200':
           description: successful
   "/time_windows/everyday":
     post:
-      summary: create a set of time windows repeating from monday to friday
+      summary: create a set of time windows repeating everyday
       tags:
       - Time Windows
       parameters: []
       responses:
         '200':
           description: successful
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                beginning:
-                  type: string
-                ending:
-                  type: string
-                time_schdule_id:
-                  type: integer
-              required:
-              - beginning
-              - ending
-              - time_schdule_id
-  "/time_windows/one_day_weekly_schedule":
-    post:
-      summary: 'create time windows repeating every selected ith day (Monday,...,Sunday) '
-      tags:
-      - Time Windows
-      parameters: []
-      responses:
-        '200':
-          description: successful
+        '400':
+          description: bad request
       requestBody:
         content:
           application/json:
@@ -271,7 +254,17 @@ paths:
                   type: integer
                 daily_hours_list:
                   type: array
-                time_schdule_id:
+                  items:
+                    type: array
+                    items: 
+                      type: array
+                      items:
+                        type: integer
+                      minItems: 2
+                      maxItems: 2
+                    minItems: 2
+                    maxItems: 2
+                time_schedule_id:
                   type: integer
               required:
               - year1
@@ -282,6 +275,61 @@ paths:
               - day2
               - daily_hours_list
               - time_schedule_id
+  "/time_windows/one_day_weekly_schedule":
+    post:
+      summary: 'create time windows repeating every selected ith day (Monday,...,Sunday) '
+      tags:
+      - Time Windows
+      parameters: []
+      responses:
+        '200':
+          description: successful
+        '400':
+          description: bad request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                year1:
+                  type: integer
+                month1:
+                  type: integer
+                day1:
+                  type: integer
+                year2:
+                  type: integer
+                month2:
+                  type: integer
+                day2:
+                  type: integer
+                daily_hours_list:
+                  type: array
+                  items:
+                    type: array
+                    items: 
+                      type: array
+                      items:
+                        type: integer
+                      minItems: 2
+                      maxItems: 2
+                    minItems: 2
+                    maxItems: 2
+                time_schedule_id:
+                  type: integer
+                week_day:
+                  type: string
+              required:
+              - year1
+              - month1
+              - day1
+              - year2
+              - month2
+              - day2
+              - daily_hours_list
+              - time_schedule_id
+              - week_day
   "/time_windows/everyday_work_day":
     post:
       summary: create a set of time windows repeating from monday to friday
@@ -291,24 +339,51 @@ paths:
       responses:
         '200':
           description: successful
+        '400':
+          description: bad request
       requestBody:
         content:
           application/json:
             schema:
               type: object
               properties:
-                beginning:
-                  type: string
-                ending:
-                  type: string
-                time_schdule_id:
+                year1:
+                  type: integer
+                month1:
+                  type: integer
+                day1:
+                  type: integer
+                year2:
+                  type: integer
+                month2:
+                  type: integer
+                day2:
+                  type: integer
+                daily_hours_list:
+                  type: array
+                  items:
+                    type: array
+                    items: 
+                      type: array
+                      items:
+                        type: integer
+                      minItems: 2
+                      maxItems: 2
+                    minItems: 2
+                    maxItems: 2
+                time_schedule_id:
                   type: integer
               required:
-              - beginning
-              - ending
-              - time_schdule_id
+              - year1
+              - month1
+              - day1
+              - year2
+              - month2
+              - day2
+              - daily_hours_list
+              - time_schedule_id
 servers:
-- url: https://{defaultHost}
+- url: http://{defaultHost}
   variables:
     defaultHost:
       default: www.example.com
