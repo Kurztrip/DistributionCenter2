@@ -53,6 +53,16 @@ ________________________________________________________________________________
 
   # PATCH/PUT /time_windows/1
   def update
+    updated_time_window = TimeWindow.new(time_window_params)
+    #puts(time_window_params)
+    updated_time_windows = TimeWindow.all
+    beginning_datetime = updated_time_window.beginning
+    ending_datetime = updated_time_window.ending
+    any_conflict = TimeWindow.new_window_has_conflict(beginning_datetime, ending_datetime)
+    if (any_conflict != "ok")
+      render json: any_conflict, status: :bad_request
+      return
+    end
     if @time_window.update(time_window_params)
       render json: @time_window
     else
@@ -62,7 +72,9 @@ ________________________________________________________________________________
 
   # DELETE /time_windows/1
   def destroy
+    deleted_object_id = @time_window.id
     @time_window.destroy
+    render json: deleted_object_id, status: :ok
   end
 
   #private
@@ -107,9 +119,9 @@ ___  ___     _            _                                            _
       #(year1,month1,day1,year2,month2,day2,daily_hours_list)
       #daily_hours_list es una lista con pares inicio-fin de hora-minuto 
 
-    #EJEMPLO: create_everyday_schdule(2021,4,3,2021,4,6,[ [[7,0],[12,30]], [[16,0],[18,45]]])
+    #EJEMPLO: create_everyday_schedule(2021,4,3,2021,4,6,[ [[7,0],[12,30]], [[16,0],[18,45]]])
 
-    def create_everyday_schdule
+    def create_everyday_schedule
 
       
         #PARAMETROS RECIBIDOS
@@ -165,7 +177,7 @@ ___  ___     _            _                                            _
         
         day_iterator_loop += 1  
         end
-        render status: :ok
+        render json: 1, status: :ok
     end
     #_____________________________________________________________________________________________________
 
@@ -184,7 +196,7 @@ ___  ___     _            _                                            _
       #EJEMPLO: create_everyday_schdule(2021,4,3,2021,4,6,[ [[7,0],[12,30]], [[16,0],[18,45]]])
 
 
-    def create_every_work_day_schdule
+    def create_every_work_day_schedule
       
         daily_hours_list = params[:daily_hours_list]
         start_day = DateTime.new(params[:year1],params[:month1],params[:day1])
@@ -238,7 +250,7 @@ ___  ___     _            _                                            _
         
         day_iterator_loop += 1  
         end
-        render status: :ok
+        render json: 1, status: :ok
     end
     #_____________________________________________________________________________________________________-
 
@@ -319,7 +331,7 @@ ___  ___     _            _                                            _
         day_iterator_loop += 7  
         end
         #render json: 
-        render status: :ok
+        render json: 1, status: :ok
     end
     #_____________________________________________________________________________________________________-
 

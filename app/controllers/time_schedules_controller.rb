@@ -44,9 +44,11 @@ ________________________________________________________________________________
     end
   end
 
-  # DELETE /time_schedules/1
+  # DELETE /time_schedules/1 
   def destroy
+    deleted_object_id = @time_schedule.id
     @time_schedule.destroy
+    render json: deleted_object_id, status: :ok
   end
 
   #private

@@ -195,12 +195,12 @@ paths:
                   type: string
                 ending:
                   type: string
-                time_schdule_id:
+                time_schedule_id:
                   type: integer
               required:
               - beginning
               - ending
-              - time_schdule_id
+              - time_schedule_id
   "/time_windows/{id}":
     parameters:
     - name: id

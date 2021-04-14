@@ -48,7 +48,9 @@ class DistributionCentersController < ApplicationController
 
   # DELETE /distribution_centers/1
   def destroy
+    deleted_object_id = @distribution_center.id
     @distribution_center.destroy
+    render json: deleted_object_id, status: :ok
   end
 
   private
