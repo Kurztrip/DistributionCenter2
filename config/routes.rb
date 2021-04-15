@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   mount Rswag::Ui::Engine => '/api-docs'
   mount Rswag::Api::Engine => '/api-docs'
-  match '/time_schedules/time_schedule_windows' => 'time_schedules#get_time_schedule_windows', :via => :get
+  match '/time_schedules/time_schedule_windows/:id' => 'time_schedules#get_time_schedule_windows', :via => :get
   resources :time_windows
   resources :time_schedules
   resources :distribution_centers

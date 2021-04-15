@@ -169,6 +169,23 @@ paths:
       responses:
         '200':
           description: successful
+  "/time_schedules/time_schedule_windows/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: integer
+    get:
+      summary: get all Time Windows associated to a Time Schedule
+      tags:
+      - Time Schedules
+      responses:
+        '200':
+          description: successful
+        '404':
+          description: not found  
   "/time_windows":
     get:
       summary: show all time_windows
@@ -208,7 +225,7 @@ paths:
       description: id
       required: true
       schema:
-        type: string
+        type: integer
     get:
       summary: show time_window
       tags:

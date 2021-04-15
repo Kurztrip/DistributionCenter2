@@ -1,5 +1,5 @@
 class TimeSchedulesController < ApplicationController
-  before_action :set_time_schedule, only: [:show, :update, :destroy]
+  before_action :set_time_schedule, only: [:show, :update, :destroy, :get_time_schedule_windows]
 
   <<-DOC
 _________________________________________________________________________________________________________________
@@ -68,8 +68,8 @@ ________________________________________________________________________________
     def get_time_schedule_windows
       #render json:.find(params[:id])
       #time_schedules = TimeSchedule.all
-      ts = TimeSchedule.find(params[:time_schedule_id])
-      render json: TimeWindow.where(time_schedule: ts)
+      #ts = TimeSchedule.find(params[:time_schedule_id])
+      render json: TimeWindow.where(time_schedule: @time_schedule)
     end
 
 
