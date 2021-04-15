@@ -21,6 +21,8 @@ paths:
       responses:
         '201':
           description: distribution center was created
+        '400':
+          description: bad request
       requestBody:
         content:
           application/json:
@@ -57,6 +59,8 @@ paths:
       responses:
         '200':
           description: successful
+        '404':
+          description: not found
     put:
       summary: update distribution_center
       tags:
@@ -65,6 +69,8 @@ paths:
       responses:
         '201':
           description: distribution center was updated
+        '400':
+          description: bad request
       requestBody:
         content:
           application/json:
@@ -93,6 +99,8 @@ paths:
       responses:
         '200':
           description: successful
+        '404':
+          description: not found
   "/time_schedules":
     get:
       summary: show all time_schedules
@@ -109,6 +117,8 @@ paths:
       responses:
         '201':
           description: created
+        '400':
+          description: bad request
       requestBody:
         content:
           application/json:
@@ -140,6 +150,8 @@ paths:
       responses:
         '200':
           description: successful
+        '404':
+          description: not found
     put:
       summary: Update time_schedule
       tags:
@@ -148,6 +160,8 @@ paths:
       responses:
         '200':
           description: successful
+        '400':
+          description: bad request
       requestBody:
         content:
           application/json:
@@ -169,6 +183,8 @@ paths:
       responses:
         '200':
           description: successful
+        '404':
+          description: not found
   "/time_schedules/time_schedule_windows/{id}":
     parameters:
     - name: id
@@ -202,6 +218,8 @@ paths:
       responses:
         '200':
           description: successful
+        '400':
+          description: bad request
       requestBody:
         content:
           application/json:
@@ -233,6 +251,8 @@ paths:
       responses:
         '200':
           description: successful
+        '404':
+          description: not found
     delete:
       summary: delete time_window
       tags:
@@ -240,6 +260,8 @@ paths:
       responses:
         '200':
           description: successful
+        '404':
+          description: not found
   "/time_windows/everyday":
     post:
       summary: create a set of time windows repeating everyday
